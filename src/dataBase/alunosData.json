@@ -1,3 +1,10 @@
 {
-    "alunos": []
+    "alunos": [
+        {
+            "nome": "bibis",
+            "email": "xane",
+            "matricula": "34097850934",
+            "data_nascimento": "08/jun"
+        }
+    ]
 }
