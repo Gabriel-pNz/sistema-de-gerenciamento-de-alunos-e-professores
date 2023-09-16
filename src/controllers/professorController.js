@@ -104,7 +104,7 @@ const atualizarDadosProfessor = async (req, res) => {
         professor.email = email;
         professor.data_nascimento = data_nascimento;
 
-        await writeFile('./src/dataBase/alunosData.json', listaProfessores);
+        await writeFile('./src/dataBase/professoresData.json', listaProfessores);
 
         res.status(200).json();
 
