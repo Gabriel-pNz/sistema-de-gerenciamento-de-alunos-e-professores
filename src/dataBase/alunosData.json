@@ -1,1 +1,10 @@
-{"alunos":[{"nome":"Let","email":"hotmail","matricula":"12134","data_nascimento":"08/nov"},{"nome":"gambri","email":"gmail","matricula":"xx2","data_nascimento":"09/dez"}]}
+{
+    "alunos": [
+        {
+            "nome": "gabriel",
+            "email": "gmail",
+            "matricula": "007",
+            "data_nascimento": "08/Jun"
+        }
+    ]
+}
