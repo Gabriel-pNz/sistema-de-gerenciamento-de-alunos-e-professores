@@ -1,4 +1,10 @@
 {
     "professores": [
+        {
+            "nome": "Gabriel",
+            "email": "gmail",
+            "matricula": "007",
+            "data_nascimento": "09/dez"
+        }
     ]
 }

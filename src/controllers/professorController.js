@@ -159,5 +159,5 @@ module.exports = {
     buscarProfessor,
     cadastrarProfessor,
     atualizarDadosProfessor,
-    deletarProfessor
+    deletarProfessor,
 };

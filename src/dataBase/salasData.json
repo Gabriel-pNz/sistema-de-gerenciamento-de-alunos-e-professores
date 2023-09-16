@@ -1,0 +1,9 @@
+{
+    "salas": [
+        {
+            "numero_sala": "1A",
+            "capacidade_alunos": "30",
+            "disponibilidade": true
+        }
+    ]
+}
