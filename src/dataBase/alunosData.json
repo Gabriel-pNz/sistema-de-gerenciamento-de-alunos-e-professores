@@ -1,10 +1,10 @@
 {
     "alunos": [
         {
-            "nome": "gabriel",
-            "email": "gmail",
+            "nome": "Gabriel Passos",
+            "email": "google",
             "matricula": "007",
-            "data_nascimento": "08/Jun"
+            "data_nascimento": "08/06"
         }
     ]
 }
