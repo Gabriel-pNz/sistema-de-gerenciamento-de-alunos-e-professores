@@ -7,6 +7,43 @@ const listaAlunos = async (req, res) => {
     res.status(200).json(listaAlunos)
 };
 
+const alunoConsultarSala = async (req, res) => {
+
+    try {
+
+        const { matricula } = req.params;
+
+        if (matricula.includes(" ") ) {
+            throw { status: 400, mensagem: "Matricula inválida!" };
+        }
+
+        const listaSalas = await readFile('./src/dataBase/salasData.json');
+
+        const salas = listaSalas.salas.filter((item) => {
+            return item;
+        });
+
+        const salasAluno = []
+        
+        for (const sala of salas) {
+            const aluno = sala.alunos.find((item) => {
+                return item.matricula === matricula;
+            });
+
+            if(aluno) {
+        
+                salasAluno.push(sala.numero_sala)
+            }
+            
+        }
+        res.status(200).json(salasAluno);
+
+    } catch (error) {
+        res.status(error.status || 500).json({ erro: error.mensagem })
+    }
+
+}
+
 const buscarAluno = async (req, res) => {
 
     try {
@@ -156,6 +193,7 @@ const deletarAluno = async (req, res) => {
 
 module.exports = {
     listaAlunos,
+    alunoConsultarSala,
     buscarAluno,
     cadastrarAluno,
     atualizarDadosAluno,

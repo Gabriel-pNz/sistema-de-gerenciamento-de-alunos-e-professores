@@ -1,6 +1,7 @@
 const routeAluno = require('./routes/alunoRoute')
 const routeProfessor = require('./routes/professorRoute')
 const routeSala = require('./routes/salaRoutes')
+
 const express = require('express');
 const app = express();
 

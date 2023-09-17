@@ -1,9 +1,36 @@
 {
     "salas": [
         {
-            "numero_sala": "1A",
-            "capacidade_alunos": "30",
-            "disponibilidade": true
+            "numero_sala": "A",
+            "capacidade_alunos": "10",
+            "disponibilidade": false,
+            "alunos": [
+                {
+                    "nome": "Lets",
+                    "email": "gmail",
+                    "matricula": "2",
+                    "data_nascimento": "09/dez"
+                },
+                {
+                    "nome": "Gabriel",
+                    "email": "gmail",
+                    "matricula": "1",
+                    "data_nascimento": "09/dez"
+                }
+            ]
+        },
+        {
+            "numero_sala": "2b",
+            "capacidade_alunos": "20",
+            "disponibilidade": false,
+            "alunos": [
+                {
+                    "nome": "Gabriel",
+                    "email": "gmail",
+                    "matricula": "1",
+                    "data_nascimento": "09/dez"
+                }
+            ]
         }
     ]
 }
