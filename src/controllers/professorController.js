@@ -3,7 +3,6 @@ const { readFile, writeFile } = require('../utils/fileUtils');
 const listaProfessores = async (req, res) => {
 
     const listaProfessores = await readFile('./src/dataBase/professoresData.json', 'utf-8');
-
     res.status(200).json(listaProfessores)
 };
 
@@ -23,7 +22,7 @@ const buscarProfessor = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         }
 
         const professor = listaProfessores.professores.find((item) => {
@@ -41,10 +40,10 @@ const cadastrarProfessor = async (req, res) => {
 
     try {
 
-        const { nome, email, matricula, data_nascimento } = req.body;
+        const { nome, email, matricula, dataNascimento } = req.body;
 
-        if (matricula.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula inválida!" };
+        if (matricula.includes(" ") || email.includes(" ") || dataNascimento.includes(" ")) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
 
         const listaProfessores = await readFile('./src/dataBase/professoresData.json', 'utf-8')
@@ -54,14 +53,14 @@ const cadastrarProfessor = async (req, res) => {
         })
 
         if (matriculaEncontrada) {
-            throw { status: 400, mensagem: "Matricula já cadastrada!" };
+            throw { status: 409, mensagem: "Matricula já cadastrada!" };
         }
 
         listaProfessores.professores.push({
             nome,
             email,
             matricula,
-            data_nascimento
+            dataNascimento
         })
 
         await writeFile('./src/dataBase/professoresData.json', listaProfessores);
@@ -80,10 +79,10 @@ const atualizarDadosProfessor = async (req, res) => {
 
         const { matricula } = req.params;
 
-        const { nome, email, data_nascimento } = req.body;
+        const { nome, email, dataNascimento } = req.body;
 
-        if (matricula.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula inválida!" };
+        if (matricula.includes(" ") || email.includes(" ") || dataNascimento.includes(" ")) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
 
         const listaProfessores = await readFile('./src/dataBase/professoresData.json');
@@ -93,7 +92,7 @@ const atualizarDadosProfessor = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         };
 
         const professor = listaProfessores.professores.find((item) => {
@@ -102,7 +101,7 @@ const atualizarDadosProfessor = async (req, res) => {
 
         professor.nome = nome;
         professor.email = email;
-        professor.data_nascimento = data_nascimento;
+        professor.dataNascimento = dataNascimento;
 
         await writeFile('./src/dataBase/professoresData.json', listaProfessores);
 
@@ -159,5 +158,5 @@ module.exports = {
     buscarProfessor,
     cadastrarProfessor,
     atualizarDadosProfessor,
-    deletarProfessor,
+    deletarProfessor
 };

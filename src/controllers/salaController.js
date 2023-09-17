@@ -2,23 +2,18 @@ const {readFile, writeFile} = require('../utils/fileUtils');
 
 const listarSalas = async(req, res) => {
 
-    try {
-
-        const listaSalas = await readFile('./src/dataBase/salasData.json');
-        res.status(200).json(listaSalas);
-
-    } catch (error) {
-        res.status(500).json({ erro: error.mensagem })
-    }
+    const listaSalas = await readFile('./src/dataBase/salasData.json');
+    res.status(200).json(listaSalas);
+    
 }
 
 const ProfessorConsultarSala = async (req, res) => {
 
     try {
 
-        const { matricula, numero_sala } = req.params;
+        const { matricula, numeroSala } = req.params;
 
-        if (matricula.includes(" ") || numero_sala.includes(" ")) {
+        if (matricula.includes(" ") || numeroSala.includes(" ")) {
             throw { status: 400, mensagem: "Matricula ou número da sala inválidos!" };
         }
 
@@ -29,22 +24,18 @@ const ProfessorConsultarSala = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         };
 
         const listaSalas = await readFile('./src/dataBase/salasData.json');
 
-        const salaNaoEncontrada = listaSalas.salas.every((item) => {
-            return item.numero_sala !== numero_sala;
-        });
-
-        if (salaNaoEncontrada) {
-            throw { status: 400, mensagem: "Sala não encontrada!" };
-        };
-
         const sala = listaSalas.salas.find((item) => {
-            return item.numero_sala === numero_sala
-        })
+            return item.numeroSala === numeroSala
+        })        
+
+        if (!sala) {
+            throw { status: 404, mensagem: "Sala não encontrada!" };
+        };
 
         res.status(200).json(sala);
 
@@ -59,10 +50,10 @@ const cadastrarSala = async (req, res) => {
     try {
 
         const { matricula } = req.params;
-        const { numero_sala, capacidade_alunos, disponibilidade} = req.body;
-
-        if (matricula.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula inválida!" };
+        const { numeroSala, capacidadeAlunos, disponibilidade} = req.body;
+        
+        if (matricula.includes(" ") || numeroSala.includes(" ") || capacidadeAlunos.includes(" ") || (disponibilidade !== true && disponibilidade !== false)) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
 
         const listaProfessores = await readFile('./src/dataBase/professoresData.json', 'utf-8')
@@ -72,15 +63,24 @@ const cadastrarSala = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         };
 
         const listaSalas = await readFile('./src/dataBase/salasData.json', 'utf-8');
 
+        const salaEncontrada = listaSalas.salas.every((item) => {
+            return item.numeroSala !== numeroSala;
+        });
+
+        if (!salaEncontrada) {
+            throw { status: 404, mensagem: "Sala já cadastrada!" };
+        };
+
         listaSalas.salas.push({
-            numero_sala,
-            capacidade_alunos,
+            numeroSala,
+            capacidadeAlunos,
             disponibilidade,
+            matriculaProfessorCriadorDaSala: matricula,
             alunos:[]
         })
 
@@ -98,12 +98,12 @@ const atualizarDadosSala = async (req, res) => {
 
     try {
 
-        const { matricula, numero_sala } = req.params;
+        const { matricula, numeroSala } = req.params;
 
-        const { capacidade_alunos, disponibilidade } = req.body;
+        const { capacidadeAlunos, disponibilidade } = req.body;
 
-        if (matricula.includes(" ") || numero_sala.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula ou número da sala inválidos!" };
+        if (matricula.includes(" ") || numeroSala.includes(" ") || capacidadeAlunos.includes(" ") || (disponibilidade !== true && disponibilidade !== false)) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
 
         const listaProfessores = await readFile('./src/dataBase/professoresData.json');
@@ -113,24 +113,20 @@ const atualizarDadosSala = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         };
 
         const listaSalas = await readFile('./src/dataBase/salasData.json', 'utf-8');
 
-        const salaNaoEncontrada = listaSalas.salas.every((item) => {
-            return item.numero_sala !== numero_sala;
+        const sala = listaSalas.salas.find((item) => {
+            return item.numeroSala === numeroSala;
         });
 
-        if (salaNaoEncontrada) {
-            throw { status: 400, mensagem: "Sala não encontrada!" };
+        if (!sala) {
+            throw { status: 404, mensagem: "Sala não encontrada!" };
         };
 
-        const sala = listaSalas.salas.find((item) => {
-            return item.numero_sala === numero_sala;
-        });
-
-        sala.capacidade_alunos = capacidade_alunos;
+        sala.capacidadeAlunos = capacidadeAlunos;
         sala.disponibilidade = disponibilidade;
 
         await writeFile('./src/dataBase/salasData.json', listaSalas, 'utf-8');
@@ -147,9 +143,9 @@ const deletarSala = async (req, res) => {
 
     try {
 
-        const { matricula, numero_sala } = req.params;
+        const { matricula, numeroSala } = req.params;
 
-        if (matricula.includes(" ") || numero_sala.includes(" ")) {
+        if (matricula.includes(" ") || numeroSala.includes(" ")) {
             throw { status: 400, mensagem: "Matricula ou número da sala inválidos!" };
         }
 
@@ -165,17 +161,13 @@ const deletarSala = async (req, res) => {
 
         const listaSalas = await readFile('./src/dataBase/salasData.json');
 
-        const salaNaoEncontrada = listaSalas.salas.every((item) => {
-            return item.numero_sala !== numero_sala;
-        });
-
-        if (salaNaoEncontrada) {
-            throw { status: 400, mensagem: "Sala não encontrada!" };
-        };
-
         const sala = listaSalas.salas.find((item) => {
-            return item.numero_sala === numero_sala;
+            return item.numeroSala === numeroSala;
         });
+
+        if (!sala) {
+            throw { status: 404, mensagem: "Sala não encontrada!" };
+        };
 
         const salasAtualizadas = listaSalas.salas.filter((item) => {
             return item !== sala;
@@ -199,28 +191,28 @@ const cadastrarAlunoNumaSala = async(req, res) => {
 
         const { matriculaProfessor, matriculaAluno, numeroSala} = req.body;
         
-        if (matriculaProfessor.includes(" ") || numeroSala.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula ou número da sala inválidos!" };
+        if (matriculaProfessor.includes(" ") || numeroSala.includes(" ") || matriculaAluno.includes(" ")) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
         
         const listaProfessores = await readFile('./src/dataBase/professoresData.json');
 
-        const matriculaNaoEncontrada = listaProfessores.professores.every((item) => {
-            return item.matricula !== matriculaProfessor;
-        });
+        const professor = listaProfessores.professores.find((item) => {
+            return item.matricula === matriculaProfessor;
+        })
 
-        if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula professor não encontrada!" };
+        if (!professor) {
+            throw { status: 404, mensagem: "Matricula professor não encontrada!" };
         };
 
         const listaSalas = await readFile('./src/dataBase/salasData.json');
 
         const salaNaoEncontrada = listaSalas.salas.every((item) => {
-            return item.numero_sala !== numeroSala;
+            return item.numeroSala !== numeroSala;
         });
     
         if (salaNaoEncontrada) {
-            throw { status: 400, mensagem: "Sala não encontrada!" };
+            throw { status: 404, mensagem: "Sala não encontrada!" };
         };
 
         const listaAlunos = await readFile('./src/dataBase/alunosData.json');
@@ -230,16 +222,24 @@ const cadastrarAlunoNumaSala = async(req, res) => {
         });
         
         if (matriculaAlunoNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula aluno não encontrada!" };
+            throw { status: 404, mensagem: "Matricula aluno não encontrada!" };
         };
         
         const sala = listaSalas.salas.find((item) => {
-            return item.numero_sala === numeroSala;
+            return item.numeroSala === numeroSala;
         });
       
         const aluno = listaAlunos.alunos.find((item) => {
             return item.matricula === matriculaAluno;
         });
+        
+        if(sala.disponibilidade === false) {
+            throw { status: 404, mensagem: "Sala não está disponível para novos cadastros de alunos" };
+        }
+
+        if(sala.matriculaProfessorCriadorDaSala !== professor.matricula) {
+            throw { status: 404, mensagem: "Não autorizado. Sala criada por outro professor!" };
+        }
        
         sala.alunos.push(aluno)
     
@@ -257,16 +257,16 @@ const removerAlunoDeUmaSala = async (req, res) => {
     
     try {
         
-        const { matricula, matriculaAluno, numero_sala } = req.body;
-
-        if (matricula.includes(" ") || numero_sala.includes(" ") || matricula.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula profeessor, número da sala ou matricula aluno inválidos!" };
+        const { matricula, matriculaAluno, numeroSala } = req.body;
+        
+        if (matricula.includes(" ") || numeroSala.includes(" ") || matriculaAluno.includes(" ")) {
+            throw { status: 400, mensagem: "Matricula professor, número da sala ou matricula aluno inválidos!" };
         }
-
+        
         const listaSalas = await readFile('./src/dataBase/salasData.json');
-       
+        
         const sala = listaSalas.salas.find((item) => {
-            return item.numero_sala === numero_sala;
+            return item.numeroSala === numeroSala;
         });
 
         if (!sala) {
@@ -276,11 +276,11 @@ const removerAlunoDeUmaSala = async (req, res) => {
         const aluno = sala.alunos.find((item) => {
             return item.matricula === matriculaAluno;
         });
-
+        
         if (!aluno) {
             throw { status: 404, mensagem: "Matricula aluno não encontrada!" };
         };
-
+        
         const listaProfessores = await readFile('./src/dataBase/professoresData.json');
 
         const professor = listaProfessores.professores.find((item) => {

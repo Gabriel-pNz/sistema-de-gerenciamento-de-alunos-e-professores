@@ -3,7 +3,6 @@ const { readFile, writeFile } = require('../utils/fileUtils');
 const listaAlunos = async (req, res) => {
 
     const listaAlunos = await readFile('./src/dataBase/alunosData.json', 'utf-8');
-
     res.status(200).json(listaAlunos)
 };
 
@@ -15,6 +14,16 @@ const alunoConsultarSala = async (req, res) => {
 
         if (matricula.includes(" ") ) {
             throw { status: 400, mensagem: "Matricula inválida!" };
+        }
+
+        const listaAlunos = await readFile('./src/dataBase/alunosData.json', 'utf-8');
+
+        const matriculaNaoEncontrada = listaAlunos.alunos.every((item) => {
+            return item.matricula !== matricula
+        });
+
+        if (matriculaNaoEncontrada) {
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         }
 
         const listaSalas = await readFile('./src/dataBase/salasData.json');
@@ -32,10 +41,15 @@ const alunoConsultarSala = async (req, res) => {
 
             if(aluno) {
         
-                salasAluno.push(sala.numero_sala)
+                salasAluno.push(sala.numeroSala)
             }
             
         }
+
+        if(salasAluno.length === 0) {
+            throw { status: 404, mensagem: "Aluno não está cadastrado em nenhuma sala!" };
+        }
+
         res.status(200).json(salasAluno);
 
     } catch (error) {
@@ -60,7 +74,7 @@ const buscarAluno = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         }
 
         const aluno = listaAlunos.alunos.find((item) => {
@@ -78,10 +92,10 @@ const cadastrarAluno = async (req, res) => {
 
     try {
 
-        const { nome, email, matricula, data_nascimento } = req.body;
+        const { nome, email, matricula, dataNascimento } = req.body;
 
-        if (matricula.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula inválida!" };
+        if (matricula.includes(" ") || nome.includes(" ") || email.includes(" ") || dataNascimento.includes(" ")) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
 
         const listaAlunos = await readFile('./src/dataBase/alunosData.json', 'utf-8')
@@ -91,14 +105,14 @@ const cadastrarAluno = async (req, res) => {
         })
 
         if (matriculaEncontrada) {
-            throw { status: 400, mensagem: "Matricula já cadastrada!" };
+            throw { status: 409, mensagem: "Matricula já cadastrada!" };
         }
 
         listaAlunos.alunos.push({
             nome,
             email,
             matricula,
-            data_nascimento
+            dataNascimento
         })
 
         await writeFile('./src/dataBase/alunosData.json', listaAlunos);
@@ -117,10 +131,10 @@ const atualizarDadosAluno = async (req, res) => {
 
         const { matricula } = req.params;
 
-        const { nome, email, data_nascimento } = req.body;
+        const { nome, email, dataNascimento } = req.body;
 
-        if (matricula.includes(" ")) {
-            throw { status: 400, mensagem: "Matricula inválida!" };
+        if(matricula.includes(" ") || email.includes(" ") || dataNascimento.includes(" ")) {
+            throw { status: 400, mensagem: "Dado(s) inválido(s)!" };
         }
 
         const listaAlunos = await readFile('./src/dataBase/alunosData.json')
@@ -130,7 +144,7 @@ const atualizarDadosAluno = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         }
 
         const aluno = listaAlunos.alunos.find((item) => {
@@ -139,7 +153,7 @@ const atualizarDadosAluno = async (req, res) => {
 
         aluno.nome = nome;
         aluno.email = email;
-        aluno.data_nascimento = data_nascimento;
+        aluno.dataNascimento = dataNascimento;
 
         await writeFile('./src/dataBase/alunosData.json', listaAlunos)
 
@@ -168,7 +182,7 @@ const deletarAluno = async (req, res) => {
         });
 
         if (matriculaNaoEncontrada) {
-            throw { status: 400, mensagem: "Matricula não encontrada!" };
+            throw { status: 404, mensagem: "Matricula não encontrada!" };
         }
 
         const aluno = listaAlunos.alunos.find((item) => {
