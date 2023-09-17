@@ -232,7 +232,7 @@ const cadastrarAlunoNumaSala = async(req, res) => {
         const aluno = listaAlunos.alunos.find((item) => {
             return item.matricula === matriculaAluno;
         });
-        
+
         if(sala.disponibilidade === false) {
             throw { status: 404, mensagem: "Sala não está disponível para novos cadastros de alunos" };
         }
@@ -240,9 +240,19 @@ const cadastrarAlunoNumaSala = async(req, res) => {
         if(sala.matriculaProfessorCriadorDaSala !== professor.matricula) {
             throw { status: 404, mensagem: "Não autorizado. Sala criada por outro professor!" };
         }
+
+        for (let i = 0; i < sala.length; i++) {
+            if(sala.alunos[i] === aluno) {
+                throw { status: 404, mensagem: "Aluno cadastrado!" };
+            }
+        }
+
+        if (sala.alunos.some((alunoNaSala) => alunoNaSala.matricula === matriculaAluno)) {
+            throw { status: 404, mensagem: "Aluno já cadastrado na sala!" };
+        }
        
         sala.alunos.push(aluno)
-    
+
         await writeFile('./src/dataBase/salasData.json', listaSalas, 'utf-8');
 
         res.status(200).json();

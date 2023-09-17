@@ -11,8 +11,8 @@ route.put('/professor/:matricula/:numeroSala', salaControllers.atualizarDadosSal
 
 route.delete('/professor/:matricula/:numeroSala', salaControllers.deletarSala)
 
-route.post('/professor/:matricula', salaControllers.cadastrarAlunoNumaSala);
+route.post('/professor/', salaControllers.cadastrarAlunoNumaSala);
 
-route.delete('/professor/:matricula', salaControllers.removerAlunoDeUmaSala);
+route.delete('/professor', salaControllers.removerAlunoDeUmaSala);
 
 module.exports = route;

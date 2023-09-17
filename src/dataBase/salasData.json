@@ -1,5 +1,1 @@
-{
-    "salas": [
-        
-    ]
-}
+{"salas":[{"numeroSala":"1A","capacidadeAlunos":"20","disponibilidade":true,"matriculaProfessorCriadorDaSala":"0","alunos":[{"nome":"gab","email":"xxx@gmail.com","matricula":"1","dataNascimento":"09/dez"}]},{"numeroSala":"2A","capacidadeAlunos":"20","disponibilidade":true,"matriculaProfessorCriadorDaSala":"1","alunos":[]}]}
