@@ -1,1 +1,5 @@
-{"salas":[{"numeroSala":"1A","capacidadeAlunos":"50","disponibilidade":false,"matriculaProfessorCriadorDaSala":"12","alunos":[]},{"numeroSala":"2B","capacidadeAlunos":"50","disponibilidade":false,"matriculaProfessorCriadorDaSala":"0","alunos":[]}]}
+{
+    "salas": [
+        
+    ]
+}

@@ -1,7 +1,7 @@
 const route = require('express').Router();
 const salaControllers  = require('../controllers/salaController')
 
-route.get('/', salaControllers.listarSalas);
+route.get('/:matricula', salaControllers.listarSalas);
 
 route.get('/professor/:matricula/:numeroSala', salaControllers.ProfessorConsultarSala);
 
@@ -11,8 +11,8 @@ route.put('/professor/:matricula/:numeroSala', salaControllers.atualizarDadosSal
 
 route.delete('/professor/:matricula/:numeroSala', salaControllers.deletarSala)
 
-route.post('/professor', salaControllers.cadastrarAlunoNumaSala);
+route.post('/professor/:matricula', salaControllers.cadastrarAlunoNumaSala);
 
-route.delete('/professor', salaControllers.removerAlunoDeUmaSala);
+route.delete('/professor/:matricula', salaControllers.removerAlunoDeUmaSala);
 
 module.exports = route;
