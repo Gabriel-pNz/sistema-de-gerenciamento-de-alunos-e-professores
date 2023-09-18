@@ -1,7 +1,7 @@
 const route = require('express').Router();
 const salaControllers  = require('../controllers/salaController')
 
-route.get('/:matricula', salaControllers.listarSalas);
+route.get('/', salaControllers.listarSalas);
 
 route.get('/professor/:matricula/:numeroSala', salaControllers.ProfessorConsultarSala);
 

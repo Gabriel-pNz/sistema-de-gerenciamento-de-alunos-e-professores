@@ -215,7 +215,7 @@
 
 ## Rotas salas
 
-- Somente os professores tem acesso e permissão a rotas das salas, com exeção apenas da rota para um aluno consultar as salas em que está cadastrado.
+- **Somente os professores tem acesso e permissão a rotas das salas, com exeção apenas da rota para um aluno consultar as salas em que está cadastrado**
 
 - **Listar salas**:
 
@@ -286,7 +286,7 @@
 - **Deletar sala**:
 
     ```javascript
-    DELETE localhost:3000/aluno/:matriculaProfessor
+    DELETE localhost:3000/sala/profeessor/:matriculaProfessor/:numeroSala
 
     - Nessa rota só é necessário passar uma matriculaProfessor válida e um numeroSala válido.
 
