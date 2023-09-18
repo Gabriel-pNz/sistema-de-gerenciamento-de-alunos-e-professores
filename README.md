@@ -60,7 +60,7 @@
 
 1. Clone este repositório em sua máquina local:
 
-    - git clone https://github.com/seu-usuario/seu-repositorio.git
+    - git clone https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores#aluno-1
 
 2. Instale as dependências necessárias:
     - npm install
