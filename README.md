@@ -5,6 +5,8 @@
 
 ## Estrutura da api
 
+![estrutura-pastas](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/c88525ba-82e0-4787-847c-885dd2594f02)
+
  A aplicação está contida na pasta **src** e dentro dela temos as pastas:
 
 **controllers** - onde estão contidos os arquivos de controle da aplicação.
@@ -74,62 +76,22 @@
 
 
 - **Listar alunos**:
-
-   ```javascript
-   GET localhost:3000/aluno
-    
+- 
     - Resposta da API:
     
-    {
-	"alunos":[
-                {
-                "nome": "Nome Aluno",
-                "email": "aaa@gmail.com",
-                "matricula": "1",
-                "dataNascimento": "09/dez"
-                }
-	         ]
-    }
+  ![rota1](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/865d8e80-88ee-4f0a-a769-8eaa1d3fb907)
 
 - **Aluno consulta as salas em que está cadastrado**:
 
-    ```javascript
-    GET localhost:3000/aluno/:matriculaAluno
-
-    - Resposta da API:
-    
-    [
-        "1A",
-        "2B"
-    ]
-
+![rota2](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/e40123c0-61fb-4b60-b3df-6f52b8510ad7)
+   
 - **Cadastrar aluno**:
 
-    ```javascript
-    POST localhost:3000/aluno
-
-    - Requisição em formato JSON necessária
-    
-    {
-	    "nome":"Nome Aluno",
-	    "email":"xxx@gmail.com",
-	    "matricula":"1",
-	    "dataNascimento": "09/dez"
-    }
+   ![rota3](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/86dabae1-cb4f-44d1-80f7-76381d10f574)
 
 - **Atualizar aluno**:
 
-    ```javascript
-    PUT localhost:3000/aluno/:matriculaAluno
-
-    - Requisição em formato JSON necessária.
-    - Matrícula é um dado único e imutável.
-    
-    {
-	    "nome":"Nome Aluno",
-	    "email":"xxx@gmail.com",
-	    "dataNascimento": "09/dez"
-    }
+![rota4](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/87e3b11d-96f8-40e3-ae2e-cab226d5cf5f)
 
 - **Deletar aluno**:
 
@@ -142,69 +104,20 @@
     
 - **Listar professores**:
 
-   ```javascript
-   GET localhost:3000/professor
-    
-    - Resposta da API:
-    
-    {
-	"professores": [
-            {
-                "nome": "prof1",
-                "email": "gmail",
-                "matricula": "1",
-                "dataNascimento": "09/jun"
-            },
-            {
-                "nome": "prof2",
-                "email": "hotmail",
-                "matricula": "0",
-                "dataNascimento": "14/fv"
-            }
-	    ]
-    }
+![rota1](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/54e8955f-c62b-47af-9bc7-a3719a915415)
+
 
 - **Consultar professor**:
-
-   ```javascript
-   GET localhost:3000/professor/:matriculaProfessor
-    
-    - Resposta da API:
-    
-    {
-        "nome": "Prof1",
-        "email": "gmail",
-        "matricula": "123",
-        "dataNascimento": "22/out"
-    }
+  
+![rota2](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/43d35992-b6c8-46a5-892f-ce6504d0839b)
     
 - **Cadastrar professor**:
 
-    ```javascript
-    POST localhost:3000/professor
-
-    - Requisição em formato JSON necessária
-    
-    {
-	    "nome":"Nome professor",
-	    "email":"xxx@gmail.com",
-	    "matricula":"1",
-	    "dataNascimento": "09/dez"
-    }
+![rota3](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/e3fadf88-63ca-4c67-b3e5-91e01d0850f4)
 
 - **Atualizar professor**:
 
-    ```javascript
-    PUT localhost:3000/aluno/:matriculaProfessor
-
-    - Requisição em formato JSON necessária.
-    - Matrícula é um dado único e imutável.
-    
-    {
-	    "nome":"Nome professor",
-	    "email":"xxx@gmail.com",
-	    "dataNascimento": "09/dez"
-    }
+![rota4](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/26b3fa97-32f8-48ce-b6d9-7a65eb64a682)
 
 - **Deletar professor**:
 
@@ -218,70 +131,20 @@
 - **Somente os professores tem acesso e permissão a rotas das salas, com exeção apenas da rota para um aluno consultar as salas em que está cadastrado**
 
 - **Listar salas**:
-
-   ```javascript
-   GET localhost:3000/sala
-    
-    - Resposta da API:
-    
-    {
-        "salas": [
-            {
-                "numeroSala": "1A",
-                "capacidadeAlunos": "50",
-                "disponibilidade": true OU false,
-                "matriculaProfessorCriadorDaSala": "12",
-                "alunos": []
-            },
-            {
-                "numeroSala": "2B",
-                "capacidadeAlunos": "50",
-                "disponibilidade": true OU false,
-                "matriculaProfessorCriadorDaSala": "0",
-                "alunos": []
-            }
-        ]
-    }
+  
+![rota1](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/1fed6cc4-181f-4778-a8b9-d6cc1ae594be)
 
 - **Consultar os alunos de uma sala**:
 
-   ```javascript
-   GET localhost:3000/sala/professor/:matriculaProfessor/:numeroSala
-    
-    - Resposta da API:
-    
-    {
-        "numeroSala": "2b",
-        "capacidadeAlunos": "20",
-        "disponibilidade": true,
-        "alunos": []
-    }
+![rota2](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/8094231c-4126-4e81-893d-101d13b507c9)
 
 - **Cadastrar sala**:
 
-   ```javascript
-   POST localhost:3000/sala/professor/:matriculaProfessor
-    
-    - Resposta da API:
-    
-    {
-        "numeroSala":"1A",
-        "capacidadeAlunos": "20",
-        "disponibilidade": true
-    }
+![rota3](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/c7968148-1fd6-43d7-b731-2ed263d5eee2)
 
 - **Atualizar sala**:
-
-   ```javascript
-   PUT localhost:3000/sala/professor/:matriculaProfessor/:numeroSala
-    
-    - Resposta da API:
-    - Os outros dados são únicos e imutáveis.
-    
-    {
-        "capacidadeAlunos": "50",
-        "disponibilidade": true 
-    }
+- 
+![rota4](https://github.com/Gabriel-pNz/sistema-de-gerenciamento-de-alunos-e-professores/assets/105496955/603e817f-8fb1-4306-b8f1-236506e3285b)
 
 - **Deletar sala**:
 
